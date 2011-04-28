@@ -27,8 +27,8 @@ class Endeca
       recs.each do |x|
         inner_hash = {}
         x.getProperties.each do |prop|
-          inner_hash[prop.shift] = prop.last
-          raise 'to much ' if prop.size > 1
+          inner_hash[prop.shift] = prop.last.gsub('+',' ').split('^')
+          raise "More than one Value" if prop.size > 1
         end 
         array << inner_hash        
 
