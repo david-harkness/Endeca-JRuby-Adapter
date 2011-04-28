@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env ruby 
 require 'java'
 require 'endeca_navigation.jar'
 java_import 'com.endeca.navigation.ENEQueryResults'
@@ -35,10 +35,11 @@ class Endeca
     end
 
 end
-
-puts "usage: query.rb XXX.XXX.XXX.XXX XXX  'N=0'"   if ARGV.size != 3
-puts "                IP_ADDRESS      PORT 'QUERY'" if ARGV.size != 3
-return -1
+if ARGV.size != 3
+  puts "usage: query.rb XXX.XXX.XXX.XXX XXX  'N=0'"   
+  puts "                IP_ADDRESS      PORT 'QUERY'"
+  return -1
+end
 
 endeca = Endeca.new(ARGV[0], ARGV[1])
 hash = endeca.query(ARGV[2], 20, 0)
