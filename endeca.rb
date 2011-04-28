@@ -3,6 +3,9 @@ require 'endeca_navigation.jar'
 java_import 'com.endeca.navigation.ENEQueryResults'
 java_import 'com.endeca.navigation.HttpENEConnection'
 java_import 'com.endeca.navigation.UrlENEQuery'
+java_import 'com.endeca.navigation.FieldList'
+
+FIELD_LIMIT = false # If set to true, it respects &F= in the url
 
 class Endeca
   
@@ -12,9 +15,17 @@ class Endeca
   
   def query(url, perPage, offset)
     @eneQuery = UrlENEQuery.new(url, "UTF-8");
-    #puts @eneQuery.methods.sort.inspect
-    @eneQuery.setNavNumERecs(perPage);
-    @eneQuery.setNavERecsOffset(offset);
+    puts "QUERY = #{url}"
+    if FIELD_LIMIT
+      fieldList = FieldList.new
+      fields = url.match(/&F=.*/).to_s.split('&')[1].split('=').last.split('|').collect {|x| x.split(':').first}
+      fields.each do |field|
+        fieldList.addField(field)
+      end
+      @eneQuery.setSelection(fieldList)
+    end
+    @eneQuery.setNavNumERecs(perPage)
+    @eneQuery.setNavERecsOffset(offset)
     parse_results @eneConn.query(@eneQuery)
   end
   

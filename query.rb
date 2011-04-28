@@ -9,7 +9,7 @@ if ARGV.size != 3
 end
 
 endeca = Endeca.new(ARGV[0], ARGV[1])
-hash = endeca.query(ARGV[2], 20, 0)
+hash = endeca.query(ARGV[2], 4, 0)
 
 puts "\e[34m********************* \e[35mFILTERS\e[0m  \e[34m******************\e[0m\n\n"
 puts hash[:hash].inspect
